@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elisabete Mendes | Nutrição Clínica</title>
+    
+    <!-- ÍCONE DA JANELA/SEPARADOR (FAVICON) -->
+    <link rel="icon" href="logotipo.png" type="image/png">
+    <link rel="apple-touch-icon" href="logotipo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Script de proteção de Scroll -->
+    <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.addEventListener('beforeunload', function() {
+            window.scrollTo(0, 0);
+        });
+    </script>
+
+    <style>
+        /* --- Variáveis de Cor e Tipografia --- */
+        :root {
+            --branco-creme: #FDFDFB; 
+            --verde-menta-claro: #E9EFE7;
+            --verde-salvia: #849681; 
+            --verde-salvia-hover: #6D7F6B;
+            --cinza-escuro: #333A31;
+            --fonte-titulos: 'Montserrat', sans-serif;
+            --fonte-texto: 'Inter', sans-serif;
+        }
+
+        /* --- Reset Básico --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--fonte-texto);
+            color: var(--cinza-escuro);
+            background-color: var(--branco-creme);
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        /* FUNDO DINÂMICO (LIMÕES) */
+        body::before {
+            content: "";
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background-image: url('pexels-tara-winstead-6489465.jpg');
+            background-repeat: no-repeat;
+            background-size: cover; 
+            background-position: center;
+            opacity: 0.50; /* Fundo nítido */
+            z-index: -1;
+            pointer-events: none; 
+        }
+
+        h1, h2, h3 { font-family: var(--fonte-titulos); color: var(--cinza-escuro); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+
+        /* TÍTULOS UNIFORMES DE SECÇÃO (Cor Escura Original) */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3.5rem;
+            text-align: center;
+            color: var(--cinza-escuro);
+        }
+
+        /* --- Animações --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* =========================================
+           ESTILO UNIVERSAL DE TODOS OS BOTÕES
+           ========================================= */
+        .btn-nav, .btn-localizador, .btn-submit, .btn-ghost {
+            background-color: var(--verde-salvia);
+            color: #FFF;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--verde-salvia);
+            cursor: pointer;
+        }
+
+        .btn-nav:hover, .btn-localizador:hover, .btn-submit:hover, .btn-ghost:hover {
+            background-color: var(--branco-creme);
+            color: var(--verde-salvia);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(132, 150, 129, 0.2);
+            border-color: var(--verde-salvia);
+        }
+
+        /* Tamanhos Específicos de cada Botão */
+        .btn-nav { padding: 1.2rem; border-radius: 12px; font-size: 1.05rem; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        .btn-localizador { padding: 1.2rem 2.5rem; border-radius: 50px; font-size: 1.1rem; display: inline-block; font-family: var(--fonte-texto); margin-bottom: 1rem;}
+        .btn-submit { padding: 1.2rem; border-radius: 50px; font-size: 1.1rem; width: 100%; display: block; margin-top: 1rem; }
+        .btn-ghost { padding: 1rem; border-radius: 50px; font-size: 0.95rem; margin-top: 1.5rem; display: block; }
+
+        /* =========================================
+           EFEITO VIDRO (GLASSMORPHISM)
+           ========================================= */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+        }
+
+        /* =========================================
+           1. SECÇÃO INÍCIO
+           ========================================= */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+            position: relative;
+        }
+
+        .hero-card {
+            background-color: #FFFFFF; /* Fundo Sólido Branco para garantir o Logótipo Perfeito */
+            padding: 5rem 4rem;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.06);
+            max-width: 1000px; 
+            width: 100%;
+            display: flex;
+            align-items: stretch;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-card-img-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 2px dashed rgba(132, 150, 129, 0.2);
+            padding-right: 4rem;
+        }
+
+        .logo-img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 2rem;
+            mix-blend-mode: multiply; 
+            -webkit-mix-blend-mode: multiply;
+        }
+
+        .hero-img {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 50%;
+            /* Borda interior restaurada a branco puro (#FFF) */
+            box-shadow: 
+                0 0 0 8px #FFF, 
+                0 0 0 18px var(--verde-salvia), 
+                0 20px 40px rgba(0,0,0,0.1); 
+            transition: transform 0.5s ease;
+            margin: 1.5rem 0; 
+        }
+        .hero-img:hover { transform: scale(1.02); }
+
+        .hero-sociais { display: flex; gap: 1rem; margin-top: 2.5rem; }
+        .hero-sociais a {
+            color: var(--verde-salvia); background: rgba(255,255,255,0.8); width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
+            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #EFECE5;
+        }
+        .hero-sociais a:hover {
+            background: var(--verde-salvia); color: #FFF; transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(132, 150, 129, 0.2); border-color: var(--verde-salvia);
+        }
+        .hero-sociais svg { width: 20px; height: 20px; }
+
+        .hero-card-nav-box {
+            flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; 
+        }
+
+        .nav-buttons { display: flex; flex-direction: column; gap: 1.2rem; width: 100%; max-width: 380px; margin: 0 auto; }
+
+        .logo-mobile { display: none; }
+        .logo-desktop { display: block; }
+
+        /* =========================================
+           2. SECÇÃO SOBRE MIM
+           ========================================= */
+        .sobre-mim-sec { background-color: transparent; }
+        
+        .sobre-mim-wrapper {
+            max-width: 800px; margin: 0 auto; padding: 4rem; border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+        }
+
+        .sobre-mim-wrapper p { font-size: 1.15rem; margin-bottom: 1.8rem; color: #333A31; text-align: center; font-weight: 500; }
+
+        .texto-destaque {
+            font-size: 1.25rem; font-weight: 500; color: var(--cinza-escuro); background-color: rgba(255,255,255,0.7);
+            padding: 3rem 2rem; border-radius: 20px; margin-top: 3rem; text-align: center;
+            box-shadow: 0 15px 40px rgba(132, 150, 129, 0.05); border-top: 5px solid var(--verde-salvia); position: relative;
+        }
+        .texto-destaque::before {
+            content: '“'; font-family: 'Montserrat', sans-serif; font-size: 6rem;
+            color: var(--verde-salvia); opacity: 0.15; position: absolute; top: -15px; left: 20px; line-height: 1;
+        }
+        .texto-destaque strong { font-weight: 700; position: relative; z-index: 1;}
+
+        /* =========================================
+           3. ÁREAS DE ATUAÇÃO
+           ========================================= */
+        .areas { background-color: transparent; }
+        
+        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        
+        .card { 
+            padding: 2.5rem 1.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+            transition: all 0.4s ease; border-bottom: 4px solid transparent; text-align: center;
+        }
+        .card:hover { 
+            transform: translateY(-10px); box-shadow: 0 20px 40px rgba(132, 150, 129, 0.15); 
+            border-bottom: 4px solid var(--verde-salvia); background-color: rgba(255,255,255,0.95);
+        }
+        
+        .card-icon { 
+            font-size: 2rem; margin: 0 auto 1.2rem auto; width: 70px; height: 70px;
+            background-color: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .card h3 { margin-bottom: 0.8rem; font-size: 1.2rem; }
+        .card p { font-size: 0.95rem; color: #333A31; font-weight: 500;}
+
+        /* =========================================
+           4. LOCAIS
+           ========================================= */
+        .locais { background-color: transparent; }
+        
+        .localizador-wrapper { margin-bottom: 4rem; text-align: center; }
+        .localizador-msg { margin-top: 1rem; font-size: 1rem; color: var(--cinza-escuro); font-weight: 500; min-height: 24px; }
+        
+        .locais-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; text-align: left; }
+        
+        .local-card { 
+            padding: 2.5rem; border-radius: 20px; transition: all 0.3s ease; 
+            position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .local-card h3 { margin-bottom: 0.5rem; color: var(--verde-salvia); font-size: 1.2rem;}
+        .local-card p { margin-bottom: 0.5rem; font-size: 1rem; font-weight: 500;}
+        .local-card a.telefone { color: var(--cinza-escuro); text-decoration: none; font-weight: 700; transition: 0.3s; }
+        .local-card a.telefone:hover { color: var(--verde-salvia); }
+        
+        .local-destaque { border-color: var(--verde-salvia); box-shadow: 0 20px 40px rgba(132, 150, 129, 0.2); transform: translateY(-10px); background-color: rgba(255,255,255,0.9);}
+        .etiqueta-perto { display: none; position: absolute; top: -15px; right: 20px; background-color: var(--verde-salvia); color: #FFF; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
+        .local-destaque .etiqueta-perto { display: block; }
+
+        /* =========================================
+           5. CONTACTO & FOOTER
+           ========================================= */
+        .contacto { background: transparent; }
+        
+        .contacto-wrapper { 
+            max-width: 600px; margin: 0 auto; padding: 4rem; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); text-align: center;
+        }
+
+        .contacto p { margin-bottom: 2.5rem; color: #333A31; font-weight: 500; font-size: 1.1rem;}
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-control { width: 100%; padding: 1.2rem; border: 2px solid rgba(255,255,255,0.8); border-radius: 12px; font-family: var(--fonte-texto); font-size: 1rem; outline: none; transition: border-color 0.3s ease; background-color: rgba(255,255,255,0.6);}
+        .form-control:focus { border-color: var(--verde-salvia); background-color: rgba(255,255,255,0.9);}
+        textarea.form-control { resize: vertical; min-height: 150px; }
+
+        footer { background-color: rgba(255, 255, 255, 0.85); text-align: center; padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(8px);}
+        footer p { color: #849681; font-size: 0.9rem; font-weight: 600;}
+
+        /* =========================================
+           RESPONSIVIDADE (MOBILE E TABLET)
+           ========================================= */
+        @media (max-width: 1024px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        }
+
+        @media (max-width: 900px) {
+            .hero-card { flex-direction: column; padding: 4rem 2rem; gap: 3rem; text-align: center; }
+            .hero-card-img-box { border-right: none; padding-right: 0; }
+            .sobre-mim-wrapper { padding: 3rem 2rem; }
+            .section-title { font-size: 2.2rem; margin-bottom: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .fade-in { opacity: 1 !important; transform: none !important; }
+            .hero-section { padding: 1.5rem 1rem; }
+            
+            .hero-card { padding: 3rem 1.5rem; border-radius: 20px; gap: 2rem; background-color: #FFFFFF; }
+            
+            .hero-img { 
+                width: 180px; height: 180px; margin: 0;
+                /* Borda interior restaurada a branco puro (#FFF) no Mobile */
+                box-shadow: 0 0 0 6px #FFF, 0 0 0 14px var(--verde-salvia), 0 15px 30px rgba(0,0,0,0.12);
+            }
+            
+            .hero-sociais { margin-top: 2rem; }
+            .btn-nav { padding: 1.1rem; font-size: 1rem; }
+            
+            .section-title { font-size: 2rem; margin-bottom: 2rem; }
+            .sobre-mim-wrapper p { font-size: 1.05rem; text-align: left; }
+            .texto-destaque { font-size: 1.05rem; padding: 2rem 1.5rem; }
+            .btn-localizador { width: 100%; padding: 1rem; font-size: 1rem;}
+            .contacto-wrapper { padding: 2rem 1.5rem; }
+            
+            .cards-grid { grid-template-columns: 1fr; gap: 1.5rem;}
+            .locais-grid { grid-template-columns: 1fr; }
+            
+            .logo-desktop { display: none; }
+            
+            .logo-mobile { 
+                display: block; 
+                max-width: 220px; 
+                margin: 0 auto 1.5rem auto; 
+                mix-blend-mode: multiply; 
+                -webkit-mix-blend-mode: multiply;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HUB DE NAVEGAÇÃO / INÍCIO -->
+    <section class="hero-section" id="inicio">
+        <div class="hero-card fade-in">
+            
+            <img src="logotipo.png" alt="Logotipo Elisabete Mendes" class="logo-img logo-mobile">
+
+            <div class="hero-card-img-box">
+                <img src="logotipo.png" alt="Logotipo Elisabete Mendes" class="logo-img logo-desktop">
+                <img src="perfil.PNG" alt="Elisabete Mendes Nutricionista" class="hero-img">
+                
+                <div class="hero-sociais">
+                    <a href="https://www.instagram.com/elisabetemendesnutricionista/" target="_blank" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="https://pt.linkedin.com/in/elisabete-mendes-741948a5" target="_blank" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-card-nav-box">
+                <div class="nav-buttons">
+                    <a href="#sobre-mim" class="btn-nav">Sobre mim</a>
+                    <a href="#areas" class="btn-nav">Áreas de atuação</a>
+                    <a href="#locais" class="btn-nav">Consultórios</a>
+                    <a href="#contacto" class="btn-nav">Marque a sua consulta</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 2. SECÇÃO SOBRE MIM -->
+    <section class="sobre-mim-sec" id="sobre-mim">
+        <div class="container fade-in">
+            <h2 class="section-title">Sobre Mim</h2>
+            <div class="sobre-mim-wrapper glass-card">
+                <p>A minha paixão pela nutrição nasceu da minha própria experiência. Desde cedo enfrentei desafios com a alimentação e o peso, o que me levou a procurar compreender melhor o impacto da nutrição na saúde e no bem-estar.</p>
+                <p>Acredito que uma alimentação saudável não deve ser feita de restrições, culpas ou proibições. Sou defensora do equilíbrio, da moderação e de uma abordagem realista, porque acredito que é possível atingir os seus objetivos sem abdicar dos prazeres da vida.</p>
+                
+                <div class="texto-destaque">
+                    <strong>O meu trabalho baseia-se numa reeducação alimentar personalizada, ajudando cada pessoa a desenvolver uma relação mais saudável com a comida, através de escolhas conscientes, sustentáveis e adaptadas ao seu dia a dia.</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SECÇÃO ÁREAS DE ATUAÇÃO -->
+    <section class="areas" id="areas">
+        <div class="container fade-in">
+            <h2 class="section-title">Áreas de atuação</h2>
+            <div class="cards-grid">
+                <div class="card glass-card">
+                    <div class="card-icon">📏</div>
+                    <h3>Emagrecimento Saudável</h3>
+                    <p>Perca peso de forma sustentável e natural, respeitando o seu metabolismo e o seu corpo.</p>
+                </div>
+                <div class="card glass-card">
+                    <div class="card-icon">🌸</div>
+                    <h3>Saúde da Mulher</h3>
+                    <p>Acompanhamento especializado em todas as fases da mulher, desde a gestação até à menopausa.</p>
+                </div>
+                <div class="card glass-card">
+                    <div class="card-icon">🥗</div>
+                    <h3>Reeducação Alimentar</h3>
+                    <p>Construa hábitos saudáveis para toda a vida. Recupere o prazer de comer de tudo, com equilíbrio.</p>
+                </div>
+                <div class="card glass-card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Nutrição Desportiva</h3>
+                    <p>Potencie a sua performance e recuperação muscular com uma estratégia nutricional alinhada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SECÇÃO PONTOS DE CONSULTA -->
+    <section class="locais" id="locais">
+        <div class="container fade-in">
+            <h2 class="section-title">Consultórios</h2>
+            
+            <div class="localizador-wrapper">
+                <button class="btn-localizador" id="btnLocalizar" onclick="encontrarClinicaMaisProxima()">
+                    📍 Ver ponto mais perto de mim
+                </button>
+                <p id="msgLocalizador" class="localizador-msg"></p>
+            </div>
+
+            <div class="locais-grid">
+                <div class="local-card glass-card" data-lat="41.4588" data-lon="-8.3044">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia Nunes de Sá</h3>
+                    <p>Fermentões, Guimarães</p>
+                    <p>Contacto: <a href="tel:+351253554268" class="telefone">253 554 268</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Nunes+de+Sá+Fermentões+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.4163" data-lon="-8.2952">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia de Polvoreira</h3>
+                    <p>Polvoreira, Guimarães</p>
+                    <p>Contacto: <a href="tel:+351253528456" class="telefone">253 528 456</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Polvoreira+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.3989" data-lon="-8.3712">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia Faria</h3>
+                    <p>Serzedelo, Guimarães</p>
+                    <p>Contacto: <a href="tel:+351253532346" class="telefone">253 532 346</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Faria+Serzedelo+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.4426" data-lon="-8.2951">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia do Parque</h3>
+                    <p>Centro, Guimarães</p>
+                    <p>Contacto: <a href="tel:+351253516046" class="telefone">253 516 046</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+do+Parque+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.4105" data-lon="-8.4285">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia de Pedome</h3>
+                    <p>Pedome, Famalicão</p>
+                    <p>Contacto: <a href="tel:+351969992800" class="telefone">969 992 800</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Pedome+Famalicão" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.4439" data-lon="-8.1561">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia Quinchaes</h3>
+                    <p>Quinchães, Fafe</p>
+                    <p>Contacto: <a href="tel:+351253498063" class="telefone">253 498 063</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Quinchaes+Fafe" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.3323" data-lon="-8.1882">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia Helena Freitas</h3>
+                    <p>Longra, Felgueiras</p>
+                    <p>Contacto: <a href="tel:+351255341002" class="telefone">255 341 002</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Helena+Freitas+Longra+Felgueiras" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.3431" data-lon="-8.4738">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Ervanária Tirsense</h3>
+                    <p>Santo Tirso</p>
+                    <p>Contacto: <a href="tel:+351252857637" class="telefone">252 857 637</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Ervanária+Tirsense+Santo+Tirso" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.3458" data-lon="-8.3861">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia de Roriz</h3>
+                    <p>Roriz, Santo Tirso</p>
+                    <p>Contacto: <a href="tel:+351252881850" class="telefone">252 881 850</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Roriz+Santo+Tirso" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.5815" data-lon="-8.4283">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia Loureiro Basto</h3>
+                    <p>Palmeira, Braga</p>
+                    <p>Contacto: <a href="tel:+351253626369" class="telefone">253 626 369</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Loureiro+Basto+Palmeira+Braga" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.4136" data-lon="-8.5811">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia Pratinha</h3>
+                    <p>Cavalões, Famalicão</p>
+                    <p>Contacto: <a href="tel:+351252375423" class="telefone">252 375 423</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Pratinha+Cavalões+Famalicão" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.2558" data-lon="-8.6179">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia de Gemunde</h3>
+                    <p>Gemunde, Maia</p>
+                    <p>Contacto: <a href="tel:+351229828927" class="telefone">229 828 927</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Gemunde+Maia" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+                <div class="local-card glass-card" data-lat="41.0772" data-lon="-8.5818">
+                    <span class="etiqueta-perto">Mais Perto de Si</span>
+                    <h3>Farmácia C. dos Carvalhos</h3>
+                    <p>Carvalhos, Vila Nova de Gaia</p>
+                    <p>Contacto: <a href="tel:+351227861020" class="telefone">227 861 020</a></p>
+                    <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Central+dos+Carvalhos+Gaia" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SECÇÃO CONTACTO -->
+    <section class="contacto" id="contacto">
+        <div class="container fade-in">
+            <h2 class="section-title">Marque a sua consulta</h2>
+            <div class="contacto-wrapper glass-card">
+                <p>Sinta-se à vontade caso queira esclarecer qualquer dúvida ou agendar uma marcação. Indique no corpo da mensagem o local da sua preferência.</p>
+                
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="nome" class="form-control" placeholder="O seu Nome" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="mensagem" class="form-control" placeholder="A sua Mensagem (indique qual o local pretendido)" required></textarea>
+                    </div>
+                    <button type="button" class="btn-submit" onclick="enviarEmail()">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER E REDES SOCIAIS -->
+    <footer>
+        <p>&copy; 2026 Elisabete Mendes. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- SCRIPT GERAL -->
+    <script>
+        // Scroll no Refresh
+        window.addEventListener('load', function() {
+            setTimeout(function() { window.scrollTo(0, 0); }, 10);
+        });
+
+        // Envio de Email com Limpeza Automática
+        function enviarEmail() {
+            const inputNome = document.getElementById('nome');
+            const inputMensagem = document.getElementById('mensagem');
+            
+            // --- ATENÇÃO: NÃO SE ESQUEÇA DE ALTERAR O EMAIL AQUI ---
+            const emailDestino = "s.mendes.elisabete@gmail.com"; 
+            
+            if(!inputNome.value || !inputMensagem.value) {
+                alert("Por favor, preencha o seu nome e a mensagem antes de prosseguir.");
+                return;
+            }
+            
+            const subject = encodeURIComponent("Contacto via Website - " + inputNome.value);
+            const body = encodeURIComponent(inputMensagem.value);
+            
+            window.location.href = `mailto:${emailDestino}?subject=${subject}&body=${body}`;
+
+            setTimeout(() => {
+                document.getElementById('contactForm').reset();
+            }, 1000);
+        }
+
+        // Animações de Scroll
+        document.addEventListener("DOMContentLoaded", function() {
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = { threshold: 0.1, rootMargin: "0px" };
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+            faders.forEach(fader => { appearOnScroll.observe(fader); });
+        });
+        
+        // Geolocalização
+        function calcularDistanciaGPS(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; 
+        }
+
+        function encontrarClinicaMaisProxima() {
+            const msgEl = document.getElementById("msgLocalizador");
+            const btnEl = document.getElementById("btnLocalizar");
+
+            if (!navigator.geolocation) {
+                msgEl.innerText = "O seu navegador não suporta geolocalização.";
+                return;
+            }
+
+            msgEl.innerText = "A procurar a sua localização... Pressione 'Permitir'.";
+            btnEl.disabled = true;
+            btnEl.style.opacity = "0.7";
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const userLat = position.coords.latitude;
+                    const userLon = position.coords.longitude;
+                    
+                    const clinicas = document.querySelectorAll('.local-card');
+                    let menorDistancia = Infinity;
+                    let clinicaMaisProxima = null;
+
+                    clinicas.forEach(c => c.classList.remove('local-destaque'));
+
+                    clinicas.forEach(clinica => {
+                        const clinicaLat = parseFloat(clinica.getAttribute('data-lat'));
+                        const clinicaLon = parseFloat(clinica.getAttribute('data-lon'));
+                        const distancia = calcularDistanciaGPS(userLat, userLon, clinicaLat, clinicaLon);
+                        
+                        const textoDistancia = clinica.querySelector('.distancia-texto');
+                        textoDistancia.innerText = `A ${distancia.toFixed(1)} km de si`;
+
+                        if (distancia < menorDistancia) {
+                            menorDistancia = distancia;
+                            clinicaMaisProxima = clinica;
+                        }
+                    });
+
+                    if (clinicaMaisProxima) {
+                        clinicaMaisProxima.classList.add('local-destaque');
+                        clinicaMaisProxima.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        msgEl.innerText = "Encontrámos o ponto de atendimento mais próximo!";
+                        msgEl.style.color = "var(--verde-salvia)";
+                    }
+                    
+                    btnEl.disabled = false;
+                    btnEl.style.opacity = "1";
+                },
+                function(error) {
+                    msgEl.style.color = "red";
+                    msgEl.innerText = "Não foi possível aceder à localização.";
+                    btnEl.disabled = false;
+                    btnEl.style.opacity = "1";
+                }
+            );
+        }
+    </script>
+</body>
+</html>
