@@ -38,13 +38,16 @@
         /* --- Reset Básico --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--fonte-texto);
             color: var(--cinza-escuro);
             background-color: var(--branco-creme);
             line-height: 1.7;
             overflow-x: hidden;
-            scroll-behavior: smooth;
             position: relative;
         }
 
@@ -60,16 +63,51 @@
             background-repeat: no-repeat;
             background-size: cover; 
             background-position: center;
-            opacity: 0.50; /* Fundo nítido */
+            opacity: 0.40; 
             z-index: -1;
             pointer-events: none; 
+        }
+
+        /* BOTÃO INTERATIVO VOLTAR AO TOPO */
+        #btnVoltarTopo {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            background-color: var(--verde-salvia);
+            color: #FFF;
+            border: 2px solid var(--verde-salvia);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 24px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #btnVoltarTopo.visivel {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #btnVoltarTopo:hover {
+            background-color: var(--branco-creme);
+            color: var(--verde-salvia);
+            transform: translateY(-5px);
         }
 
         h1, h2, h3 { font-family: var(--fonte-titulos); color: var(--cinza-escuro); }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
 
-        /* TÍTULOS UNIFORMES DE SECÇÃO (Cor Escura Original) */
+        /* TÍTULOS UNIFORMES DE SECÇÃO */
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 3.5rem;
@@ -136,7 +174,7 @@
         }
 
         .hero-card {
-            background-color: #FFFFFF; /* Fundo Sólido Branco para garantir o Logótipo Perfeito */
+            /* Fundo branco removido para uniformizar a transparência em todo o site */
             padding: 5rem 4rem;
             border-radius: 30px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.06);
@@ -172,7 +210,6 @@
             height: 240px;
             object-fit: cover;
             border-radius: 50%;
-            /* Borda interior restaurada a branco puro (#FFF) */
             box-shadow: 
                 0 0 0 8px #FFF, 
                 0 0 0 18px var(--verde-salvia), 
@@ -227,28 +264,118 @@
         .texto-destaque strong { font-weight: 700; position: relative; z-index: 1;}
 
         /* =========================================
-           3. ÁREAS DE ATUAÇÃO
+           3. ÁREAS DE ATUAÇÃO (FOTOGRAFIAS)
            ========================================= */
         .areas { background-color: transparent; }
         
-        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        
-        .card { 
-            padding: 2.5rem 1.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-            transition: all 0.4s ease; border-bottom: 4px solid transparent; text-align: center;
-        }
-        .card:hover { 
-            transform: translateY(-10px); box-shadow: 0 20px 40px rgba(132, 150, 129, 0.15); 
-            border-bottom: 4px solid var(--verde-salvia); background-color: rgba(255,255,255,0.95);
+        .cards-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 2rem; 
+            margin-top: 2rem;
         }
         
-        .card-icon { 
-            font-size: 2rem; margin: 0 auto 1.2rem auto; width: 70px; height: 70px;
-            background-color: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        /* A caixa principal do cartão */
+        .area-card { 
+            position: relative; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            transition: all 0.4s ease; 
+            min-height: 420px; 
+            margin-top: 1.5rem; 
+            display: flex;
+            text-decoration: none;
+            background-color: #FFF;
         }
-        .card h3 { margin-bottom: 0.8rem; font-size: 1.2rem; }
-        .card p { font-size: 0.95rem; color: #333A31; font-weight: 500;}
+        
+        .area-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(132, 150, 129, 0.25); 
+        }
+
+        /* A Etiqueta (Badge) que sobrepõe o topo */
+        .area-title-badge {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--verde-salvia);
+            color: #FFF;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-family: var(--fonte-titulos);
+            font-weight: 700;
+            font-size: 1.05rem;
+            z-index: 5;
+            text-align: center;
+            width: 85%;
+            max-width: 250px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: 3px solid #FFF;
+            transition: all 0.3s ease;
+        }
+        
+        .area-card:hover .area-title-badge {
+            background-color: var(--branco-creme);
+            color: var(--verde-salvia);
+            border-color: var(--verde-salvia);
+        }
+
+        /* O interior que esconde os cantos da imagem */
+        .area-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end; 
+        }
+
+        /* A Fotografia a preencher tudo */
+        .area-bg-img {
+            position: absolute;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.6s ease;
+        }
+        
+        .area-card:hover .area-bg-img {
+            transform: scale(1.08); 
+        }
+
+        /* O Degradê escuro para podermos ler o texto branco */
+        .area-overlay {
+            position: absolute;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 100%);
+            z-index: 2;
+        }
+
+        /* O Texto descritivo em si */
+        .area-content {
+            position: relative;
+            z-index: 3;
+            padding: 2.5rem 1.5rem 2rem 1.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .area-content p {
+            font-size: 1rem;
+            color: #FFF;
+            font-weight: 500;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            line-height: 1.6;
+        }
 
         /* =========================================
            4. LOCAIS
@@ -295,7 +422,7 @@
            RESPONSIVIDADE (MOBILE E TABLET)
            ========================================= */
         @media (max-width: 1024px) {
-            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; } 
         }
 
         @media (max-width: 900px) {
@@ -309,11 +436,10 @@
             .fade-in { opacity: 1 !important; transform: none !important; }
             .hero-section { padding: 1.5rem 1rem; }
             
-            .hero-card { padding: 3rem 1.5rem; border-radius: 20px; gap: 2rem; background-color: #FFFFFF; }
+            .hero-card { padding: 3rem 1.5rem; border-radius: 20px; gap: 2rem; }
             
             .hero-img { 
                 width: 180px; height: 180px; margin: 0;
-                /* Borda interior restaurada a branco puro (#FFF) no Mobile */
                 box-shadow: 0 0 0 6px #FFF, 0 0 0 14px var(--verde-salvia), 0 15px 30px rgba(0,0,0,0.12);
             }
             
@@ -326,7 +452,7 @@
             .btn-localizador { width: 100%; padding: 1rem; font-size: 1rem;}
             .contacto-wrapper { padding: 2rem 1.5rem; }
             
-            .cards-grid { grid-template-columns: 1fr; gap: 1.5rem;}
+            .cards-grid { grid-template-columns: 1fr; gap: 2.5rem;}
             .locais-grid { grid-template-columns: 1fr; }
             
             .logo-desktop { display: none; }
@@ -338,20 +464,34 @@
                 mix-blend-mode: multiply; 
                 -webkit-mix-blend-mode: multiply;
             }
+
+            #btnVoltarTopo {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 20px;
+            }
+            
+            .area-card { min-height: 350px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- BOTÃO INTERATIVO VOLTAR AO TOPO -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="btnVoltarTopo" title="Voltar ao topo">↑</button>
+
     <!-- 1. HUB DE NAVEGAÇÃO / INÍCIO -->
     <section class="hero-section" id="inicio">
-        <div class="hero-card fade-in">
+        <!-- O cartão inicial agora tem a classe glass-card para estar uniformizado com o resto -->
+        <div class="hero-card glass-card fade-in">
             
             <img src="logotipo.png" alt="Logotipo Elisabete Mendes" class="logo-img logo-mobile">
 
             <div class="hero-card-img-box">
                 <img src="logotipo.png" alt="Logotipo Elisabete Mendes" class="logo-img logo-desktop">
-                <img src="perfil.PNG" alt="Elisabete Mendes Nutricionista" class="hero-img">
+                <img src="perfil.JPG" alt="Elisabete Mendes Nutricionista" class="hero-img">
                 
                 <div class="hero-sociais">
                     <a href="https://www.instagram.com/elisabetemendesnutricionista/" target="_blank" aria-label="Instagram">
@@ -366,8 +506,8 @@
             <div class="hero-card-nav-box">
                 <div class="nav-buttons">
                     <a href="#sobre-mim" class="btn-nav">Sobre mim</a>
-                    <a href="#areas" class="btn-nav">Áreas de atuação</a>
-                    <a href="#locais" class="btn-nav">Consultórios</a>
+                    <a href="#areas" class="btn-nav">No que te posso ajudar</a>
+                    <a href="#locais" class="btn-nav">Pontos de consulta</a>
                     <a href="#contacto" class="btn-nav">Marque a sua consulta</a>
                 </div>
             </div>
@@ -390,31 +530,60 @@
         </div>
     </section>
 
-    <!-- 3. SECÇÃO ÁREAS DE ATUAÇÃO -->
+    <!-- 3. SECÇÃO ÁREAS DE ATUAÇÃO (NOVAS FOTOS) -->
     <section class="areas" id="areas">
         <div class="container fade-in">
-            <h2 class="section-title">Áreas de atuação</h2>
+            <h2 class="section-title">Como posso ajudar</h2>
             <div class="cards-grid">
-                <div class="card glass-card">
-                    <div class="card-icon">📏</div>
-                    <h3>Emagrecimento Saudável</h3>
-                    <p>Perca peso de forma sustentável e natural, respeitando o seu metabolismo e o seu corpo.</p>
+                
+                <!-- CARTÃO 1: Emagrecimento -->
+                <div class="area-card">
+                    <div class="area-title-badge">Emagrecimento Saudável</div>
+                    <div class="area-card-inner">
+                        <img src="pexels-marta-longas-1449108-3143085.jpg" alt="Emagrecimento Saudável" class="area-bg-img">
+                        <div class="area-overlay"></div>
+                        <div class="area-content">
+                            <p>Perca peso de forma sustentável e natural, respeitando o seu metabolismo e o seu corpo.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card glass-card">
-                    <div class="card-icon">🌸</div>
-                    <h3>Saúde da Mulher</h3>
-                    <p>Acompanhamento especializado em todas as fases da mulher, desde a gestação até à menopausa.</p>
+
+                <!-- CARTÃO 2: Saúde da Mulher -->
+                <div class="area-card">
+                    <div class="area-title-badge">Saúde da Mulher</div>
+                    <div class="area-card-inner">
+                        <img src="pexels-anna-pou-8330290.jpg" alt="Saúde da Mulher" class="area-bg-img">
+                        <div class="area-overlay"></div>
+                        <div class="area-content">
+                            <p>Acompanhamento especializado em todas as fases da mulher, desde a gestação até à menopausa.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card glass-card">
-                    <div class="card-icon">🥗</div>
-                    <h3>Reeducação Alimentar</h3>
-                    <p>Construa hábitos saudáveis para toda a vida. Recupere o prazer de comer de tudo, com equilíbrio.</p>
+
+                <!-- CARTÃO 3: Reeducação Alimentar -->
+                <div class="area-card">
+                    <div class="area-title-badge">Reeducação Alimentar</div>
+                    <div class="area-card-inner">
+                        <img src="pexels-polina-tankilevitch-3872373.jpg" alt="Reeducação Alimentar" class="area-bg-img">
+                        <div class="area-overlay"></div>
+                        <div class="area-content">
+                            <p>Construa hábitos saudáveis para toda a vida. Recupere o prazer de comer de tudo, com equilíbrio.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card glass-card">
-                    <div class="card-icon">⚡</div>
-                    <h3>Nutrição Desportiva</h3>
-                    <p>Potencie a sua performance e recuperação muscular com uma estratégia nutricional alinhada.</p>
+
+                <!-- CARTÃO 4: Nutrição Desportiva -->
+                <div class="area-card">
+                    <div class="area-title-badge">Nutrição Desportiva</div>
+                    <div class="area-card-inner">
+                        <img src="pexels-mart-production-7880001.jpg" alt="Nutrição Desportiva" class="area-bg-img">
+                        <div class="area-overlay"></div>
+                        <div class="area-content">
+                            <p>Potencie a sua performance e recuperação muscular com uma estratégia nutricional alinhada.</p>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -422,11 +591,11 @@
     <!-- 4. SECÇÃO PONTOS DE CONSULTA -->
     <section class="locais" id="locais">
         <div class="container fade-in">
-            <h2 class="section-title">Consultórios</h2>
+            <h2 class="section-title">Onde me Encontrar</h2>
             
             <div class="localizador-wrapper">
                 <button class="btn-localizador" id="btnLocalizar" onclick="encontrarClinicaMaisProxima()">
-                    📍 Ver ponto mais perto de mim
+                    📍 Ver qual o ponto mais perto de mim
                 </button>
                 <p id="msgLocalizador" class="localizador-msg"></p>
             </div>
@@ -438,7 +607,7 @@
                     <p>Fermentões, Guimarães</p>
                     <p>Contacto: <a href="tel:+351253554268" class="telefone">253 554 268</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Nunes+de+Sá+Fermentões+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Nunes+de+Sa+Fermentoes" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.4163" data-lon="-8.2952">
@@ -447,7 +616,7 @@
                     <p>Polvoreira, Guimarães</p>
                     <p>Contacto: <a href="tel:+351253528456" class="telefone">253 528 456</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Polvoreira+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+de+Polvoreira+Guimaraes" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.3989" data-lon="-8.3712">
@@ -456,7 +625,7 @@
                     <p>Serzedelo, Guimarães</p>
                     <p>Contacto: <a href="tel:+351253532346" class="telefone">253 532 346</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Faria+Serzedelo+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Faria+Serzedelo" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.4426" data-lon="-8.2951">
@@ -465,7 +634,7 @@
                     <p>Centro, Guimarães</p>
                     <p>Contacto: <a href="tel:+351253516046" class="telefone">253 516 046</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+do+Parque+Guimarães" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+do+Parque+Guimaraes" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.4105" data-lon="-8.4285">
@@ -474,7 +643,7 @@
                     <p>Pedome, Famalicão</p>
                     <p>Contacto: <a href="tel:+351969992800" class="telefone">969 992 800</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Pedome+Famalicão" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+de+Pedome+Famalicao" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.4439" data-lon="-8.1561">
@@ -483,7 +652,7 @@
                     <p>Quinchães, Fafe</p>
                     <p>Contacto: <a href="tel:+351253498063" class="telefone">253 498 063</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Quinchaes+Fafe" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Quinchaes+Fafe" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.3323" data-lon="-8.1882">
@@ -492,7 +661,7 @@
                     <p>Longra, Felgueiras</p>
                     <p>Contacto: <a href="tel:+351255341002" class="telefone">255 341 002</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Helena+Freitas+Longra+Felgueiras" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Helena+Freitas+Longra" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.3431" data-lon="-8.4738">
@@ -501,7 +670,7 @@
                     <p>Santo Tirso</p>
                     <p>Contacto: <a href="tel:+351252857637" class="telefone">252 857 637</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Ervanária+Tirsense+Santo+Tirso" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Ervanaria+Tirsense+Santo+Tirso" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.3458" data-lon="-8.3861">
@@ -510,7 +679,7 @@
                     <p>Roriz, Santo Tirso</p>
                     <p>Contacto: <a href="tel:+351252881850" class="telefone">252 881 850</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Roriz+Santo+Tirso" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+de+Roriz+Santo+Tirso" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.5815" data-lon="-8.4283">
@@ -519,7 +688,7 @@
                     <p>Palmeira, Braga</p>
                     <p>Contacto: <a href="tel:+351253626369" class="telefone">253 626 369</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Loureiro+Basto+Palmeira+Braga" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Loureiro+Basto+Palmeira+Braga" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.4136" data-lon="-8.5811">
@@ -528,7 +697,7 @@
                     <p>Cavalões, Famalicão</p>
                     <p>Contacto: <a href="tel:+351252375423" class="telefone">252 375 423</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Pratinha+Cavalões+Famalicão" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Pratinha+Cavaloes+Famalicao" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.2558" data-lon="-8.6179">
@@ -537,7 +706,7 @@
                     <p>Gemunde, Maia</p>
                     <p>Contacto: <a href="tel:+351229828927" class="telefone">229 828 927</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+de+Gemunde+Maia" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+de+Gemunde+Maia" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
                 <div class="local-card glass-card" data-lat="41.0772" data-lon="-8.5818">
@@ -546,7 +715,7 @@
                     <p>Carvalhos, Vila Nova de Gaia</p>
                     <p>Contacto: <a href="tel:+351227861020" class="telefone">227 861 020</a></p>
                     <p class="distancia-texto" style="color:var(--verde-salvia); font-weight:bold; margin-bottom:1rem;"></p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Farmácia+Central+dos+Carvalhos+Gaia" target="_blank" class="btn-ghost">Ver no Mapa</a>
+                    <a href="https://maps.google.com/?q=Farmacia+Carvalhos+Vila+Nova+de+Gaia" target="_blank" class="btn-ghost">Ver no Mapa</a>
                 </div>
 
             </div>
@@ -575,23 +744,31 @@
 
     <!-- FOOTER E REDES SOCIAIS -->
     <footer>
-        <p>&copy; 2026 Elisabete Mendes. Todos os direitos reservados.</p>
+        <p>© 2026 Elisabete Mendes. Todos os direitos reservados.</p>
     </footer>
 
     <!-- SCRIPT GERAL -->
     <script>
-        // Scroll no Refresh
+        // Mostrar botão "Voltar ao Topo" consoante o scroll
+        window.onscroll = function() {
+            const btnTopo = document.getElementById("btnVoltarTopo");
+            if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+                btnTopo.classList.add("visivel");
+            } else {
+                btnTopo.classList.remove("visivel");
+            }
+        };
+
         window.addEventListener('load', function() {
             setTimeout(function() { window.scrollTo(0, 0); }, 10);
         });
 
-        // Envio de Email com Limpeza Automática
         function enviarEmail() {
             const inputNome = document.getElementById('nome');
             const inputMensagem = document.getElementById('mensagem');
             
-            // --- ATENÇÃO: NÃO SE ESQUEÇA DE ALTERAR O EMAIL AQUI ---
-            const emailDestino = "s.mendes.elisabete@gmail.com"; 
+            // --- ATENÇÃO: COLOQUE O SEU EMAIL REAL AQUI ---
+            const emailDestino = "seuemail@dominio.pt"; 
             
             if(!inputNome.value || !inputMensagem.value) {
                 alert("Por favor, preencha o seu nome e a mensagem antes de prosseguir.");
@@ -608,7 +785,7 @@
             }, 1000);
         }
 
-        // Animações de Scroll
+        // Animações de Scroll (Intersection Observer)
         document.addEventListener("DOMContentLoaded", function() {
             const faders = document.querySelectorAll('.fade-in');
             const appearOptions = { threshold: 0.1, rootMargin: "0px" };
@@ -622,7 +799,7 @@
             faders.forEach(fader => { appearOnScroll.observe(fader); });
         });
         
-        // Geolocalização
+        // Geolocalização e cálculo por GPS
         function calcularDistanciaGPS(lat1, lon1, lat2, lon2) {
             const R = 6371; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
